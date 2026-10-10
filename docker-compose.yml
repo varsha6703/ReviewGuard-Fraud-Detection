@@ -1,0 +1,10 @@
+services:
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - reviewguard_mongo:/data/db
+volumes:
+  reviewguard_mongo:

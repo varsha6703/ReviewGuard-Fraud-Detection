@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReviewGuard | Fraud Detection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <h2>🛡️ ReviewGuard</h2>
+            <p class="subtitle">FRAUD DETECTION SYSTEM</p>
+
+            <nav>
+                <a href="#overview" class="active">▦ &nbsp; Overview</a>
+                <a href="#analyze">⌕ &nbsp; Analyze Review</a>
+                <a href="#history">☷ &nbsp; Review History</a>
+                <a href="#monitoring">◉ &nbsp; Fraud Monitoring</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="online-dot"></span>
+                API Dashboard
+                <small>Local development</small>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">REVIEW INTELLIGENCE</p>
+                    <h1>Fraud Detection Dashboard</h1>
+                    <p class="muted">Monitor, analyze and detect suspicious reviews.</p>
+                </div>
+                <span class="api-badge">● API Connected</span>
+            </header>
+
+            <section id="overview">
+                <h2 class="section-title">Overview</h2>
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <span class="stat-icon">▤</span>
+                        <p>Total Reviews Analyzed</p>
+                        <h2 id="totalReviews">0</h2>
+                        <small>Reviews submitted through this dashboard</small>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-icon green">✓</span>
+                        <p>Approved Reviews</p>
+                        <h2 id="approvedReviews">0</h2>
+                        <small>Classified as approved</small>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-icon red">⚑</span>
+                        <p>Quarantined Reviews</p>
+                        <h2 id="quarantinedReviews">0</h2>
+                        <small>Flagged for further review</small>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-icon purple">◉</span>
+                        <p>Latest Fraud Score</p>
+                        <h2 id="latestScore">—</h2>
+                        <small>Score from the latest analysis</small>
+                    </article>
+                </div>
+            </section>
+
+            <section id="analyze" class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Analyze a Review</h2>
+                        <p class="muted">Enter review details to check for suspicious activity.</p>
+                    </div>
+                    <span class="model-badge">AI Model</span>
+                </div>
+
+                <form id="reviewForm">
+                    <div class="form-grid">
+                        <div class="field full-width">
+                            <label for="reviewText">Review Text</label>
+                            <textarea id="reviewText" maxlength="10000"
+                                placeholder="Enter the product review here..."
+                                required></textarea>
+                        </div>
+
+                        <div class="field">
+                            <label for="userId">User ID</label>
+                            <input type="number" id="userId" min="1"
+                                value="103" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="rating">Product Rating</label>
+                            <select id="rating" required>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Good</option>
+                                <option value="3">3 - Average</option>
+                                <option value="2">2 - Poor</option>
+                                <option value="1">1 - Very Poor</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="velocity">Reviews Posted in Last 24 Hours</label>
+                            <input type="number" id="velocity" min="0"
+                                value="1" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="analyzeButton">
+                        Analyze Review →
+                    </button>
+                    <p id="formMessage" role="status"></p>
+                </form>
+
+                <div id="resultCard" class="result-card hidden">
+                    <h3>Analysis Result</h3>
+                    <div class="result-grid">
+                        <div>
+                            <p class="muted">Fraud Score</p>
+                            <h2 id="resultScore">—</h2>
+                        </div>
+                        <div>
+                            <p class="muted">Review Status</p>
+                            <span id="resultStatus" class="status-badge">—</span>
+                        </div>
+                        <div>
+                            <p class="muted">Inference Mode</p>
+                            <strong id="inferenceMode">—</strong>
+                        </div>
+                    </div>
+                    <p class="muted">Explanation</p>
+                    <ul id="explanationList"></ul>
+                </div>
+            </section>
+
+            <section id="history" class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Recent Review History</h2>
+                        <p class="muted">Reviews analyzed during this dashboard session.</p>
+                    </div>
+                    <span id="historyCount" class="count-badge">0 records</span>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Review ID</th>
+                                <th>User</th>
+                                <th>Rating</th>
+                                <th>Fraud Score</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody">
+                            <tr>
+                                <td colspan="5" class="empty-state">
+                                    No reviews analyzed yet.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="monitoring" class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Fraud Monitoring</h2>
+                        <p class="muted">Check whether review score distributions have changed.</p>
+                    </div>
+                    <button type="button" id="driftButton" class="secondary-button">
+                        Check Drift Status
+                    </button>
+                </div>
+                <div id="driftResult" class="drift-result">
+                    Click “Check Drift Status” to retrieve the API result.
+                </div>
+            </section>
+
+            <footer>
+                ReviewGuard · Fraudulent Review Detection System
+            </footer>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
